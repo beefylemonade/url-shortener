@@ -1,4 +1,4 @@
-package com.beefylemonade.url_shortener;
+package com.beefylemonade.urlshortener;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
