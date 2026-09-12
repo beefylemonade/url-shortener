@@ -1,6 +1,7 @@
 package com.beefylemonade.urlshortener;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -45,4 +46,18 @@ class Base62EncoderTests {
 		long original = 999_999_999_999L;
 		assertEquals(original, Base62Encoder.decode(Base62Encoder.encode(original)));
 	}
+
+	@Test
+	void encode_negativeId_throwIllegalArgumentException() {
+		long input = -1;
+
+		assertThrows(IllegalArgumentException.class, () -> Base62Encoder.encode(input));
+	}
+
+	@Test
+	void decode_invalidCode_throwIllegalArgumentException() {
+		String input = "+";
+		assertThrows(IllegalArgumentException.class, () -> Base62Encoder.decode(input));
+	}
+
 }

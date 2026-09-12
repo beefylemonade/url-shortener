@@ -1,35 +1,49 @@
 package com.beefylemonade.urlshortener;
 
 public class Base62Encoder {
-	private static final String ALPHABET =
-	        "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	    private static final int BASE = 62;
+	private static final String ALPHABET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	private static final int BASE = 62;
 
-	    public static String encode(long id) {
-	    	
-	    	String encodedString = "";
-	        // TODO: repeatedly divide id by 62, use the remainder to index
-	        // into ALPHABET, prepend each char, until id == 0.
-	        // Edge case: what does your loop do if id == 0 going in?
-	    	
-	    	return encodedString;
-	    }
+	public static String encode(long id) {
 
-	    public static long decode(String shortCode) {
-	        // TODO: reverse of encode — walk each character left to right,
-	        // result = result * 62 + indexOf(char in ALPHABET)
-	    	
-	    	long result = 0;
-	    	
-	    	for(char c: shortCode.toCharArray()) {
-	    		result = result * 62 + ALPHABET.indexOf(c);
-	    	}
-	    	
-	    	
-	    	
-	    	return result;
-	    	
-	    }
+		// Edge case handling. Return "0" immediate for 0
+		if (id < 0) {
+			throw new IllegalArgumentException("id cannot be negative: " + id);
+		}
+		if (id == 0) {
+			return "0";
+		}
 
+		StringBuilder sb = new StringBuilder();
+		// Repeatedly divide id by BASE, use the remainder to index
+		// into ALPHABET, prepend each char, until id == 0.
+		while (id > 0) {
+			sb.append(ALPHABET.charAt((int) (id % BASE)));
+			id /= BASE;
+
+		}
+
+		return sb.reverse().toString();
+	}
+
+	public static long decode(String shortCode) {
+		// Reverse of encode. Walk each character left to right,
+
+		long result = 0;
+
+		for (char c : shortCode.toCharArray()) {
+
+			int index = ALPHABET.indexOf(c);
+
+			if (index < 0) {
+				throw new IllegalArgumentException("Invalid character in short code: " + c);
+
+			}
+			result = result * BASE + index;
+		}
+
+		return result;
+
+	}
 
 }
