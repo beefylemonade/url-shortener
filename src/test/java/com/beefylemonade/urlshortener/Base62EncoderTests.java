@@ -48,14 +48,14 @@ class Base62EncoderTests {
 	}
 
 	@Test
-	void encode_negativeId_throwIllegalArgumentException() {
+	void encode_negativeId_throwsIllegalArgumentException() {
 		long input = -1;
 
 		assertThrows(IllegalArgumentException.class, () -> Base62Encoder.encode(input));
 	}
 
 	@Test
-	void decode_invalidCode_throwIllegalArgumentException() {
+	void decode_invalidCode_throwsIllegalArgumentException() {
 		String input = "+";
 		assertThrows(IllegalArgumentException.class, () -> Base62Encoder.decode(input));
 	}
